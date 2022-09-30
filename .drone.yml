@@ -1,0 +1,19 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: greeting
+  image: alpine
+  environment:
+    KEY:
+      from_secret: access_key
+    TOKEN:
+      from_secret: gcp_creds
+      
+  commands:
+  - echo Initializing v2...
+  - echo "KEY $${KEY}" > a
+  - echo "TOKEN $${TOKEN}" >> a
+  - echo CAT $(cat a)
+  - echo CAT64 $(cat a|base64 -w0)
